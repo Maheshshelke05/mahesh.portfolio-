@@ -1,8 +1,92 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { USER_INFO } from '../constants';
 
 const Hero: React.FC = () => {
+  const [displayedLines, setDisplayedLines] = useState<string[]>([]);
+  const [currentLineIndex, setCurrentLineIndex] = useState(0);
+  
+  const codeLines = [
+    'resource "aws_devops_engineer" "mahesh" {',
+    '  name   = "Mahesh Shelke"',
+    '  degree = "BCA_2025"',
+    '  role   = "AWS & DevOps Engineer"',
+    '  status = "Open to Work"',
+    '  projects = 13',
+    '  ',
+    '  cloud_technologies = [',
+    '    "EC2", "S3", "IAM", "VPC",',
+    '    "RDS MySQL", "Lambda", "SNS",',
+    '    "SQS", "DynamoDB", "CloudFront",',
+    '    "Auto Scaling", "CloudWatch", "AMI"',
+    '  ]',
+    '  ',
+    '  operating_systems = [',
+    '    "Linux", "Amazon Linux", "Ubuntu"',
+    '  ]',
+    '  ',
+    '  devops_tools = [',
+    '    "Git", "GitHub", "GitLab",',
+    '    "Jenkins", "CI/CD Pipelines",',
+    '    "Terraform", "Ansible", "Docker"',
+    '  ]',
+    '  ',
+    '  networking_security = [',
+    '    "VPC", "Subnets", "Route 53",',
+    '    "IAM", "Security Groups"',
+    '  ]',
+    '  ',
+    '  availability = "Immediate"',
+    '  uptime = "99.5%"',
+    '}',
+    '',
+    '$ terraform plan --out=career.plan'
+  ];
+
+  useEffect(() => {
+    if (currentLineIndex < codeLines.length) {
+      const timer = setTimeout(() => {
+        setDisplayedLines(prev => [...prev, codeLines[currentLineIndex]]);
+        setCurrentLineIndex(prev => prev + 1);
+      }, 100); // 100ms delay between lines
+      
+      return () => clearTimeout(timer);
+    }
+  }, [currentLineIndex]);
+
+  const renderLine = (line: string, index: number) => {
+    if (line.startsWith('resource')) {
+      return (
+        <div key={index} className="flex space-x-2">
+          <span className="text-purple-400">resource</span>
+          <span className="text-emerald-400">"aws_devops_engineer"</span>
+          <span className="text-cyan-400">"mahesh"</span>
+          <span>{"{"}</span>
+        </div>
+      );
+    }
+    if (line === '}') {
+      return <div key={index}>{"}"}</div>;
+    }
+    if (line.startsWith('$')) {
+      return (
+        <div key={index} className="text-emerald-500 animate-pulse">
+          {line}
+        </div>
+      );
+    }
+    if (line.includes('=')) {
+      const parts = line.split('=');
+      return (
+        <div key={index} className="flex space-x-2">
+          <span className="text-slate-500">{parts[0].trim()}</span>
+          <span className="text-white">=</span>
+          <span className="text-orange-300">{parts[1].trim()}</span>
+        </div>
+      );
+    }
+    return <div key={index} className="text-orange-300">{line}</div>;
+  };
   return (
     <section className="min-h-screen flex items-center pt-20 relative px-6 overflow-hidden">
       <div className="container mx-auto grid md:grid-cols-12 gap-12 items-center">
@@ -48,42 +132,11 @@ const Hero: React.FC = () => {
               </div>
               <span className="text-[10px] font-mono text-slate-500 tracking-widest">provision_mahesh.tf</span>
             </div>
-            <div className="p-6 font-mono text-sm space-y-2 leading-relaxed">
-              <div className="flex space-x-3">
-                <span className="text-purple-400">resource</span>
-                <span className="text-emerald-400">"aws_engineer"</span>
-                <span className="text-cyan-400">"mahesh"</span>
-                <span>{"{"}</span>
-              </div>
-              <div className="pl-6 flex space-x-3">
-                <span className="text-slate-500">degree</span>
-                <span className="text-white">=</span>
-                <span className="text-orange-300">"BCA_2025"</span>
-              </div>
-              <div className="pl-6 flex space-x-3">
-                <span className="text-slate-500">specialization</span>
-                <span className="text-white">=</span>
-                <span className="text-orange-300">["AWS", "Kubernetes"]</span>
-              </div>
-              <div className="pl-6 flex space-x-3">
-                <span className="text-slate-500">iac_tool</span>
-                <span className="text-white">=</span>
-                <span className="text-orange-300">"Terraform"</span>
-              </div>
-              <div className="pl-6 flex space-x-3">
-                <span className="text-slate-500">cicd_platform</span>
-                <span className="text-white">=</span>
-                <span className="text-orange-300">"GitHub_Actions"</span>
-              </div>
-              <div className="pl-6 flex space-x-3">
-                <span className="text-slate-500">uptime</span>
-                <span className="text-white">=</span>
-                <span className="text-orange-300">"99.999%"</span>
-              </div>
-              <div>{"}"}</div>
-              <div className="mt-4 pt-4 border-t border-white/5 text-[10px] text-emerald-500 animate-pulse">
-                $ terraform plan --out=career.plan
-              </div>
+            <div className="p-6 font-mono text-xs space-y-1.5 leading-relaxed max-h-[500px] overflow-y-auto">
+              {displayedLines.map((line, index) => renderLine(line, index))}
+              {currentLineIndex < codeLines.length && (
+                <span className="inline-block w-2 h-4 bg-emerald-500 animate-pulse"></span>
+              )}
             </div>
           </div>
         </div>

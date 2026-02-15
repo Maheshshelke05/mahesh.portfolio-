@@ -6,12 +6,12 @@ export const USER_INFO = {
   title: "AWS & DevOps Engineer",
   bio: "Specializing in automating cloud infrastructure and streamlining delivery pipelines. BCA Graduate (2025) with a passion for scalable, secure, and highly available systems.",
   location: "Maharashtra, India",
-  email: "mahesh.shelke@example.com",
-  phone: "+91 99999 00000",
+  email: "msshelke0505@gmail.com",
+  phone: "+919022604252",
   socials: {
-    github: "https://github.com/maheshshelke",
-    linkedin: "https://linkedin.com/in/maheshshelke",
-    twitter: "https://twitter.com/maheshdevops"
+    github: "https://github.com/Maheshshelke05",
+    linkedin: "https://linkedin.com/in/mahesh-shelke-7497a7315",
+    medium: "https://medium.com/@maheshshelke05"
   }
 };
 

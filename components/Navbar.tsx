@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 
-const Navbar: React.FC = () => {
+const Navbar: React.FC<{ onServicesClick: () => void }> = ({ onServicesClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
@@ -27,11 +27,14 @@ const Navbar: React.FC = () => {
           <a href="#skills" className="hover:text-cyan-400 transition-colors flex items-center space-x-1">
              <span className="text-cyan-500/50">02.</span><span>STACK</span>
           </a>
+          <button onClick={onServicesClick} className="hover:text-cyan-400 transition-colors flex items-center space-x-1">
+             <span className="text-cyan-500/50">03.</span><span>SERVICES</span>
+          </button>
           <a href="#projects" className="hover:text-cyan-400 transition-colors flex items-center space-x-1">
-             <span className="text-cyan-500/50">03.</span><span>NODES</span>
+             <span className="text-cyan-500/50">04.</span><span>NODES</span>
           </a>
           <a href="#contact" className="hover:text-cyan-400 transition-colors flex items-center space-x-1">
-             <span className="text-cyan-500/50">04.</span><span>CONNECT</span>
+             <span className="text-cyan-500/50">05.</span><span>CONNECT</span>
           </a>
         </div>
 

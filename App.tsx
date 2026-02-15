@@ -1,17 +1,34 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
+import Services from './components/Services';
 import PortfolioGrid from './components/PortfolioGrid';
 import Contact from './components/Contact';
 import AIChatAssistant from './components/AIChatAssistant';
 import { USER_INFO } from './constants';
 
 const App: React.FC = () => {
+  const [showServices, setShowServices] = useState(false);
   return (
     <div className="relative min-h-screen">
-      <Navbar />
+      <Navbar onServicesClick={() => setShowServices(true)} />
+      
+      {/* Services Modal */}
+      {showServices && (
+        <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-sm overflow-y-auto">
+          <div className="min-h-screen py-20">
+            <button 
+              onClick={() => setShowServices(false)}
+              className="fixed top-8 right-8 w-12 h-12 rounded-full bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all hover:scale-110 z-[101]"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+            </button>
+            <Services />
+          </div>
+        </div>
+      )}
       
       <main>
         <Hero />

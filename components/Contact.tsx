@@ -3,6 +3,19 @@ import React from 'react';
 import { USER_INFO } from '../constants';
 
 const Contact: React.FC = () => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const firstName = (form.elements.namedItem('firstName') as HTMLInputElement).value;
+    const lastName = (form.elements.namedItem('lastName') as HTMLInputElement).value;
+    const email = (form.elements.namedItem('email') as HTMLInputElement).value;
+    const message = (form.elements.namedItem('message') as HTMLTextAreaElement).value;
+    
+    const whatsappMessage = `*New Contact Form Submission*%0A%0A*Name:* ${firstName} ${lastName}%0A*Email:* ${email}%0A*Message:* ${message}`;
+    const whatsappURL = `https://wa.me/919022604252?text=${whatsappMessage}`;
+    
+    window.open(whatsappURL, '_blank');
+  };
   return (
     <section id="contact" className="py-24 bg-[#0a0a0c]">
       <div className="container mx-auto px-6">
@@ -37,14 +50,14 @@ const Contact: React.FC = () => {
               </div>
             </div>
 
-            <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
+            <form className="space-y-4" onSubmit={handleSubmit}>
               <div className="grid md:grid-cols-2 gap-4">
-                <input type="text" placeholder="First Name" className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
-                <input type="text" placeholder="Last Name" className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
+                <input name="firstName" type="text" placeholder="First Name" required className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
+                <input name="lastName" type="text" placeholder="Last Name" required className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
               </div>
-              <input type="email" placeholder="Email Address" className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
-              <textarea placeholder="Tell me about your project..." rows={5} className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full resize-none"></textarea>
-              <button className="w-full py-4 rounded-2xl bg-blue-600 text-white font-bold text-lg hover:bg-blue-700 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-blue-900/20">
+              <input name="email" type="email" placeholder="Email Address" required className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full" />
+              <textarea name="message" placeholder="Tell me about your project..." rows={5} required className="bg-white/5 border border-white/10 rounded-2xl px-6 py-4 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500/20 transition-all w-full resize-none"></textarea>
+              <button type="submit" className="w-full py-4 rounded-2xl bg-blue-600 text-white font-bold text-lg hover:bg-blue-700 hover:scale-[1.02] active:scale-95 transition-all shadow-xl shadow-blue-900/20">
                 Send Message
               </button>
             </form>
