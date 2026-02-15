@@ -1,0 +1,8 @@
+{
+  "name": "Elite Pro Portfolio & Freelance Hub",
+  "description": "A high-end, interactive professional portfolio designed for job seekers and freelancers, featuring an integrated Gemini-powered AI Career Assistant to interact with potential recruiters and clients.",
+  "requestFramePermissions": [
+    "camera",
+    "microphone"
+  ]
+}
