@@ -1,5 +1,5 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Skills from './components/Skills';
@@ -7,13 +7,55 @@ import Services from './components/Services';
 import PortfolioGrid from './components/PortfolioGrid';
 import Contact from './components/Contact';
 import AIChatAssistant from './components/AIChatAssistant';
+import Loading from './components/Loading';
 import { USER_INFO } from './constants';
 
 const App: React.FC = () => {
   const [showServices, setShowServices] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(true);
+
+  useEffect(() => {
+    // Check saved theme preference
+    const savedTheme = localStorage.getItem('theme');
+    if (savedTheme === 'light') {
+      setIsDarkMode(false);
+      document.documentElement.classList.remove('dark');
+    }
+  }, []);
+
+  const toggleTheme = () => {
+    setIsDarkMode(!isDarkMode);
+    if (isDarkMode) {
+      document.documentElement.classList.remove('dark');
+      localStorage.setItem('theme', 'light');
+    } else {
+      document.documentElement.classList.add('dark');
+      localStorage.setItem('theme', 'dark');
+    }
+  };
+
+  const handleDownloadResume = () => {
+    // Create a temporary link and trigger download
+    const link = document.createElement('a');
+    link.href = '/mahesh resume.pdf';
+    link.download = 'Mahesh_Shelke_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  if (isLoading) {
+    return <Loading onComplete={() => setIsLoading(false)} />;
+  }
   return (
     <div className="relative min-h-screen">
-      <Navbar onServicesClick={() => setShowServices(true)} />
+      <Navbar 
+        onServicesClick={() => setShowServices(true)}
+        onDownloadResume={handleDownloadResume}
+        isDarkMode={isDarkMode}
+        onToggleTheme={toggleTheme}
+      />
       
       {/* Services Modal */}
       {showServices && (
