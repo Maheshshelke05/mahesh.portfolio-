@@ -1,0 +1,33 @@
+# Mahesh Shelke Dedicated Server Environment
+
+# 1. Acquire Wake Lock
+termux-wake-lock 2>/dev/null
+
+# 2. Handy Aliases
+alias portfolio="cd ~/mahesh.portfolio-"
+alias pstatus="~/mahesh.portfolio-/status.sh"
+alias prestart="~/mahesh.portfolio-/start.sh"
+alias pstop="~/mahesh.portfolio-/stop.sh"
+alias plogs="pm2 logs"
+alias pmonit="pm2 monit"
+
+# 3. Ensure PM2 daemon is active
+if ! pgrep -f "PM2" >/dev/null 2>&1; then
+  pm2 resurrect >/dev/null 2>&1
+fi
+
+# 4. Display Status Banner
+if [ -t 1 ]; then
+  echo ""
+  echo "╔══════════════════════════════════════════════════╗"
+  echo "║     ⚡ MAHESH SHELKE DEDICATED PHONE SERVER ⚡   ║"
+  echo "╚══════════════════════════════════════════════════╝"
+  IP=$(ifconfig 2>/dev/null | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1' | head -n 1)
+  echo "  📍 Local IP    : http://${IP:-192.168.1.18}:3000"
+  if [ -f ~/mahesh.portfolio-/public_url.txt ]; then
+    echo "  🌍 Public Live : $(cat ~/mahesh.portfolio-/public_url.txt 2>/dev/null)"
+  fi
+  echo "  ⚙️ Commands    : pstatus | prestart | pstop | plogs"
+  echo "════════════════════════════════════════════════════"
+  echo ""
+fi
